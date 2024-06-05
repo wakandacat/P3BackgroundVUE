@@ -1,8 +1,8 @@
 <template>
   <body>
-    <img :class="BackPlacement" id="backgroundImage" v-bind:src="backIMG">
+    <img :class="BackPlacement" v-bind:src="backIMG">
 
-    <img v-if="!isDarkHour" :class="UIBackScale" id="UIBackground" src="../src/assets/UI/blueBackSmall.png">
+    <img v-if="!isDarkHour" :class="UIBackScale" src="../src/assets/UI/blueBackSmall.png">
     <img v-else :class="UIBackScale" id="UIBackground" src="../src/assets/UI/greenBackSmall.png">
 
     <div :class="UIPlacement" id="UIHolder">
@@ -26,9 +26,7 @@
 
 <script>
 //global vars
-let isDark = false;
 let shortFormDays = ["Su", "M", "T", "W", "Th", "F", "Sa"];
-let isWeekEnd = false;
 let timesOfDay = [
   { string: 'Dark Hour', url: '../src/assets/Backgrounds/tartarus.png', start: 0, end: 1, weekendOnly: false },
   { string: 'Early Morning', url: '../src/assets/Backgrounds/earlyMorning.png', start: 1, end: 6, weekendOnly: false },
@@ -41,47 +39,57 @@ let timesOfDay = [
   { string: 'Late Night', url: '../src/assets/Backgrounds/lateNight.png', start: 21, end: 24, weekendOnly: false},
 ];
 
-//by default, set to early morning
-let timeOfDayStr = timesOfDay[1].string;
-let timeOfDayBack = timesOfDay[1].url;
-
-//---------------GET THE CURRENT DATE--------------------
-var time = new Date();
-var day = time.getDate(); //0 to 31
-var month = time.getMonth() + 1; //0 to 11 (add +1 to get correct month)
-var dayOfWeekInt = time.getDay(); //0, 1, 2, 3, 4, 5, 6 (STARTING AT SUNDAY = 0)
-if(dayOfWeekInt === 0 || dayOfWeekInt === 6){
-  isWeekEnd = true;
-}
-var dayOfWeekStr = shortFormDays[dayOfWeekInt];
-
-
-//---------------GET THE CURRENT TIME OF DAY--------------------------------------------
-var hour = time.getHours();
-
-//loop through the array to figure out which string and background to display
-for(let i=0;i++;i<timesOfDay.length){
-  console.log(timesOfDay[i]);
-  if(hour >= timesOfDay[i].start && hour < timesOfDay[i].end && isWeekEnd === timesOfDay[i].weekendOnly){
-    timeOfDayStr = timesOfDay[i].string;
-    timeOfDayBack = timesOfDay[i].url;
-  }
-}
-
 export default {
   data(){
     return {
       UIBackScale: 'UIBackScale',
       UIPlacement: 'UIHold',
       BackPlacement: 'BackgroundScale',
-      isDarkHour: isDark,
-      dayInMonthNum: day,
-      monthNum: month,
-      dayOfWeekNum: dayOfWeekInt,
-      dayOfWeekLetter: dayOfWeekStr,
-      timeOfDay: timeOfDayStr,
-      backIMG: timeOfDayBack,
+      isDarkHour: false,
+      dayInMonthNum: new Date().getDate(), //0 to 31,
+      monthNum: new Date().getMonth() + 1, //0 to 11 (add +1 to get correct month),
+      dayOfWeekNum: new Date().getDay(), //0, 1, 2, 3, 4, 5, 6 (STARTING AT SUNDAY = 0)
+      dayOfWeekLetter: shortFormDays[new Date().getDay()],
+      timeOfDay: timesOfDay[1].string,
+      backIMG: timesOfDay[1].url,
     };
+  },
+  computed: {
+    isWeekEnd(){
+      if(this.dayOfWeekNum === 0 || this.dayOfWeekNum === 6){
+        return true;
+      } else{
+        return false;
+      }
+    }
+  },
+  methods: {
+    //continue to get the current time
+    getCurrTimes(){
+      this.dayInMonthNum = new Date().getDate();
+      this.monthNum = new Date().getMonth() + 1; //0 to 11 (add +1 to get correct month),
+      this.dayOfWeekNum = new Date().getDay(); //0, 1, 2, 3, 4, 5, 6 (STARTING AT SUNDAY = 0)
+      this.dayOfWeekLetter = shortFormDays[new Date().getDay()];
+    },
+    calcTimeOfDay(){
+      var hour = new Date().getHours();
+      //loop through the array to figure out which string and background to display
+      for(let i=0;i<timesOfDay.length;i++){
+        if(hour >= timesOfDay[i].start && hour < timesOfDay[i].end && this.isWeekEnd === timesOfDay[i].weekendOnly){ 
+          this.timeOfDay = timesOfDay[i].string;
+          this.backIMG = timesOfDay[i].url;
+          if(this.timeOfDay === "Dark Hour"){ //if its the dark hour, set the flag
+            this.isDarkHour = true;
+          }
+        }
+      }
+    }
+  },
+  mounted(){
+
+    // Start the interval to call checkValue every minute
+    setInterval(this.checkValue, 1000);
+    setInterval(this.calcTimeOfDay, 1000);
   }
 };
 </script>
