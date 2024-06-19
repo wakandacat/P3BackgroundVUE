@@ -1,29 +1,5 @@
-# p3back
+# P3 Background
+A recreation of the Persona 3 Portable UI as a computer background
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a remake of another project in which I created the same background using simply Javascript, HTML and CSS. This remake makes use of VUE (and better CSS) to significantly cut down the amount of code and create a cleaner project.
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
