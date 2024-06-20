@@ -6,24 +6,26 @@
     <img v-else :class="UIBackScale" src="../src/assets/UI/greenBackSmall.png">
 
     <div :class="UIPlacement">
-      <div :class="currDateStyle">
+      <div :class="currDateStyle" :style="{ color: isDarkHour ? '#0b2607' : '#246185' }">
           <p>{{ monthNum + " / " + dayInMonthNum + " • " + dayOfWeekLetter}}</p>
       </div>
-      <div :class="currTimeStyle">
+      <div :class="currTimeStyle" :style="{ color: isDarkHour ? '#bff9c3' : '#ffffff', textShadow: isDarkHour ? '7px 5px #0b2607' : '7px 5px #246185'}">
           <p>{{ calcTimeOfDay.timeOfDay }}</p>
       </div>
-      <div v-if="!hideNext" :class="nextStyle">
+      <div v-show="!hideNext" :class="nextStyle" :style="{ color: isDarkHour ? '#ffffff' : '#d9fdff', textShadow: isDarkHour ? '3px 3px #0b2607' : '3px 3px #246185'}">
           <p>Next:</p>
       </div>
 
-      <div v-if="!hideNext" :class="daysUntilFullStyle">
-        <p>{{ daysUntilFull + " / "}}</p>
-      </div>
-      <div v-else :class="{daysUntilFullStyle, moonPhaseText}">
-        <p>{{ calcPhaseOfMoon.string }}</p>
+      <div :class="formatStyle">
+        <div v-if="!hideNext" :class="daysUntilFullStyle" :style="{ color: isDarkHour ? '#78fe8d' : '#9efdff', textShadow: isDarkHour ? '3px 3px #0b2607' : '3px 3px #246185'}">
+          <p>{{ daysUntilFull + " / "}}</p>
+        </div>
+        <div v-else :class="{daysUntilFullStyle, moonPhaseText}">
+          <p>{{ calcPhaseOfMoon.string }}</p>
+        </div>
+        <img :class="moonScale" v-bind:src="calcPhaseOfMoon.moonIMG">
       </div>
 
-      <img id="moonPhase" :class="moonScale">
     </div>
 
   </div>
@@ -49,22 +51,22 @@ let timesOfDay = [
 ];
 //14.75 is full moon
 let moonPhases = [
-  { string: 'New', url: '../src/assets/Moon/newMoon.png', start: 29, end: 0.5, showText: true },
-  { string: 'Sliver Left', url: '../src/assets/Moon/extraMoon2.png', start: 0.5, end: 3.2, showText: false },
-  { string: 'Waxing Crescent', url: '../src/assets/Moon/waxingMoonCrescent.png', start: 3.2, end: 4.2, showText: false },
-  { string: 'Almost Half', url: '../src/assets/Moon/almostHalfAgain1.png', start:4.2, end: 6.9, showText: false },
-  { string: 'Half', url: '../src/assets/Moon/halfMoonRight.png', start: 6.9, end: 7.9, showText: true },
-  { string: 'Past Half', url: '../src/assets/Moon/almostMoonHalfRight.png', start: 7.9, end: 10.6, showText: false },
-  { string: 'Waxing Gibbous', url: '../src/assets/Moon/waxingMoonGibbous.png', start: 10.6, end: 11.6, showText: false },
-  { string: 'Almost Full', url: '../src/assets/Moon/sliverMoonRight.png', start: 11.6, end: 14, showText: false },
-  { string: 'Full', url: '../src/assets/Moon/fullMoon.png', start: 14, end: 15, showText: true },
-  { string: 'Past Full', url: '../src/assets/Moon/sliverMoonLeft.png', start: 15, end: 18, showText: false },
-  { string: 'Waning Gibbous', url: '../src/assets/Moon/waningMoonGibbous.png', start: 18, end: 19, showText: false },
-  { string: 'Almost Half', url: '../src/assets/Moon/almostMoonHalfLeft.png', start: 19, end: 21.6, showText: false },
-  { string: 'Half', url: '../src/assets/Moon/halfMoonLeft.png', start: 21.6, end: 22.6, showText: true },
-  { string: 'Sliver Right', url: '../src/assets/Moon/almostHalfAgain2.png', start: 22.6, end: 25.3, showText: false },
-  { string: 'Waning Crescent', url: '../src/assets/Moon/waningMoonCrescent.png', start: 25.3, end: 26.3, showText: false },
-  { string: 'Almost New', url: '../src/assets/Moon/extraMoon1.png', start: 26.3, end: 29, showText: false },
+  { string: 'New', url: '../src/assets/Moon/01new.png', start: 29, end: 0.5, showText: true },
+  { string: 'Sliver Left', url: '../src/assets/Moon/02sliverL.png', start: 0.5, end: 3.2, showText: false },
+  { string: 'Waxing Crescent', url: '../src/assets/Moon/03waxingCres.png', start: 3.2, end: 4.2, showText: false },
+  { string: 'Almost Half', url: '../src/assets/Moon/04almostHalf.png', start:4.2, end: 6.9, showText: false },
+  { string: 'Half', url: '../src/assets/Moon/05halfR.png', start: 6.9, end: 7.9, showText: true },
+  { string: 'Past Half', url: '../src/assets/Moon/06pastHalf.png', start: 7.9, end: 10.6, showText: false },
+  { string: 'Waxing Gibbous', url: '../src/assets/Moon/07waxingGibb.png', start: 10.6, end: 11.6, showText: false },
+  { string: 'Almost Full', url: '../src/assets/Moon/08almostFull.png', start: 11.6, end: 14, showText: false },
+  { string: 'Full', url: '../src/assets/Moon/09full.png', start: 14, end: 15, showText: true },
+  { string: 'Past Full', url: '../src/assets/Moon/10pastFull.png', start: 15, end: 18, showText: false },
+  { string: 'Waning Gibbous', url: '../src/assets/Moon/11waningGibb.png', start: 18, end: 19, showText: false },
+  { string: 'Almost Half', url: '../src/assets/Moon/12almostHalf.png', start: 19, end: 21.6, showText: false },
+  { string: 'Half', url: '../src/assets/Moon/13HalfL.png', start: 21.6, end: 22.6, showText: true },
+  { string: 'Sliver Right', url: '../src/assets/Moon/14pastHalf.png', start: 22.6, end: 25.3, showText: false },
+  { string: 'Waning Crescent', url: '../src/assets/Moon/15waningCres.png', start: 25.3, end: 26.3, showText: false },
+  { string: 'Almost New', url: '../src/assets/Moon/16sliverR.png', start: 26.3, end: 29, showText: false },
 ];
 
 
@@ -80,6 +82,7 @@ export default {
       nextStyle: 'next',
       daysUntilFullStyle: 'daysUntilFullStyle',
       moonPhaseText: 'moonPhaseText',
+      formatStyle: 'formatStyle',
       isDarkHour: false,
       dayInMonthNum: new Date().getDate(), //0 to 31,
       monthNum: new Date().getMonth() + 1, //0 to 11 (add +1 to get correct month),
@@ -191,6 +194,7 @@ export default {
     margin: 0px;
     overflow-y: hidden; /* Hide vertical scrollbar */
     overflow-x: hidden; /* Hide horizontal scrollbar */
+    font-weight: 900; 
   }
   .UIBackScale {
     width:50%;
@@ -218,35 +222,34 @@ export default {
     position: relative;
     text-align: right;
     font-size: 4em;
-    color: #246185;
   }
   .currTimeStyle {
     position: relative;
     text-align: right;
     font-size: 4em;
-    color: #ffffff;
-    text-shadow: 7px 5px #246185;
   }
   .next{
     position: relative;
     text-align: right;
     font-size: 3em;
-    color: #d9fdff;
-    text-shadow: 3px 3px #246185;
     display: block;
+    padding-right: 10%;
   }
   .daysUntilFullStyle{
     position: relative;
     text-align: right;
     font-size: 4em;
-    color: #9efdff;
-    text-shadow: 3px 3px #246185;
-    font-weight: 900; 
   }
   .moonPhaseText{
     color: white;
   }
   .moonScale{
-
+    max-width: 10%;
+    padding-left: 15px;
+  }
+  .formatStyle{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 </style>
