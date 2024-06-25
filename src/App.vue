@@ -7,12 +7,13 @@
 
     <div :class="UIPlacement">
       <div :class="currDateStyle" :style="{ color: isDarkHour ? '#0b2607' : '#246185' }">
-          <p>{{ monthNum + " / " + dayInMonthNum + " • " + dayOfWeekLetter}}</p>
+          <p>{{ monthNum + " / " + dayInMonthNum + " • "}}</p>
+          <p :style="{color: dayOfWeekNum === 6 && !isDarkHour ? '#18179d' : (dayOfWeekNum === 0 && !isDarkHour ? '#d5370a' : '')}">{{ dayOfWeekLetter }}</p>
       </div>
       <div :class="currTimeStyle" :style="{ color: isDarkHour ? '#bff9c3' : '#ffffff', textShadow: isDarkHour ? '7px 5px #0b2607' : '7px 5px #246185'}">
           <p>{{ calcTimeOfDay.timeOfDay }}</p>
       </div>
-      <div v-show="!hideNext" :class="nextStyle" :style="{ color: isDarkHour ? '#ffffff' : '#d9fdff', textShadow: isDarkHour ? '3px 3px #0b2607' : '3px 3px #246185'}">
+      <div v-show="!hideNext" :class="nextStyle" :style="{ color: isDarkHour ? '#e8ffe9' : '#d9fdff', textShadow: isDarkHour ? '3px 3px #0b2607' : '3px 3px #246185'}">
           <p>Next:</p>
       </div>
 
@@ -20,10 +21,10 @@
         <div v-if="!hideNext" :class="daysUntilFullStyle" :style="{ color: isDarkHour ? '#78fe8d' : '#9efdff', textShadow: isDarkHour ? '3px 3px #0b2607' : '3px 3px #246185'}">
           <p>{{ daysUntilFull + " / "}}</p>
         </div>
-        <div v-else :class="{daysUntilFullStyle, moonPhaseText}">
+        <div v-else :class="daysUntilFullStyle" :style="{ color: isDarkHour ? '#e8ffe9' : '#d9fdff', textShadow: isDarkHour ? '3px 3px #0b2607' : '3px 3px #246185'}">
           <p>{{ calcPhaseOfMoon.string }}</p>
         </div>
-        <img :class="moonScale" v-bind:src="calcPhaseOfMoon.moonIMG">
+        <img :class="moonScale" v-bind:src="calcPhaseOfMoon.moonIMG" >
       </div>
 
     </div>
@@ -32,26 +33,28 @@
 </template>
 
 <script>
-//using this library's functions: https://github.com/jasonsturges/lunarphase-js to get the lunarphases
+//:style="{ color: dayOfWeekNum === 6 && !isDarkHour ? '#18179d' : '', color: dayOfWeekNum === 0 && !isDarkHour ? '#d5370a' : '',}"
+//using this library's functions: https://github.com/jasonsturges/lunarphase-js to get the lunarphases              
 //https://jasonsturges.medium.com/moons-lunar-phase-in-javascript-a5219acbfe6e#:~:text=Using%20Julian%20date%2C%20you%20can%20calculate%20the%20current%20phase%20of,time%20between%20two%20identical%20syzygies.
 
 //global vars
-let shortFormDays = ["Su", "M", "T", "W", "Th", "F", "Sa"];
+let shortFormDays = ["Su", "M", "Tu", "W", "Th", "F", "Sa"];
 const LUNAR_MONTH = 29.530588853;
 let timesOfDay = [
   { string: 'Dark Hour', url: '../src/assets/Backgrounds/tartarus.png', start: 0, end: 1, weekendOnly: false },
   { string: 'Early Morning', url: '../src/assets/Backgrounds/earlyMorning.png', start: 1, end: 6, weekendOnly: false },
   { string: 'Morning', url: '../src/assets/Backgrounds/morning.png', start: 6, end: 11, weekendOnly: false },
   { string: 'Lunch', url: '../src/assets/Backgrounds/lunchTime.png', start: 11, end: 12, weekendOnly: false},   
-  { string: 'Daytime', url: '../src/assets/Backgrounds/weekends.png', start: 8, end: 15, weekendOnly: true},
-  { string: 'After School', url: '../src/assets/Backgrounds/afterSchool.png', start: 12, end: 18, weekendOnly: false},   
+  { string: 'Daytime', url: '../src/assets/Backgrounds/weekends.png', start: 6, end: 15, weekendOnly: true},
+  { string: 'Afternoon', url: '../src/assets/Backgrounds/school.png', start: 12, end: 15, weekendOnly: false},   
+  { string: 'After School', url: '../src/assets/Backgrounds/afterSchool.png', start: 15, end: 18, weekendOnly: false},   
   { string: 'Afternoon', url: '../src/assets/Backgrounds/afternoon.png', start: 15, end: 18, weekendOnly: true},
   { string: 'Evening', url: '../src/assets/Backgrounds/evening.png', start: 18, end: 21, weekendOnly: false},
-  { string: 'Late Night', url: '../src/assets/Backgrounds/lateNight.png', start: 21, end: 24, weekendOnly: false},
+  { string: 'Late Night', url: '../src/assets/Backgrounds/lateNight.png', start: 21, end: 25, weekendOnly: false},
 ];
 //14.75 is full moon
 let moonPhases = [
-  { string: 'New', url: '../src/assets/Moon/01new.png', start: 29, end: 0.5, showText: true },
+  { string: 'New', url: '../src/assets/Moon/01new.png', start: 0, end: 0.5, showText: true },
   { string: 'Sliver Left', url: '../src/assets/Moon/02sliverL.png', start: 0.5, end: 3.2, showText: false },
   { string: 'Waxing Crescent', url: '../src/assets/Moon/03waxingCres.png', start: 3.2, end: 4.2, showText: false },
   { string: 'Almost Half', url: '../src/assets/Moon/04almostHalf.png', start:4.2, end: 6.9, showText: false },
@@ -66,7 +69,7 @@ let moonPhases = [
   { string: 'Half', url: '../src/assets/Moon/13HalfL.png', start: 21.6, end: 22.6, showText: true },
   { string: 'Sliver Right', url: '../src/assets/Moon/14pastHalf.png', start: 22.6, end: 25.3, showText: false },
   { string: 'Waning Crescent', url: '../src/assets/Moon/15waningCres.png', start: 25.3, end: 26.3, showText: false },
-  { string: 'Almost New', url: '../src/assets/Moon/16sliverR.png', start: 26.3, end: 29, showText: false },
+  { string: 'Almost New', url: '../src/assets/Moon/16sliverR.png', start: 26.3, end: 30, showText: false },
 ];
 
 
@@ -100,7 +103,7 @@ export default {
       }
     },
     calcTimeOfDay(){
-      var hour = new Date().getHours();
+     var hour = new Date().getHours();
 
       //loop through the array to figure out which string and background to display
       for(let i=0;i<timesOfDay.length;i++){
@@ -118,7 +121,8 @@ export default {
     calcPhaseOfMoon(){
       //loop through the array to figure out which string and background to display
       for(let i=0;i<moonPhases.length;i++){
-        if(this.daysUntilFull >= moonPhases[i].start && this.daysUntilFull < moonPhases[i].end){ 
+
+        if(this.lunarAge >= moonPhases[i].start && this.lunarAge < moonPhases[i].end){ 
           if(moonPhases[i].showText === true){ //if its a notable moon phase, hide next and spell it out
             this.hideNext = true;
           }
@@ -129,28 +133,32 @@ export default {
         }
       }
     },
-    normalize(){
-      return value => {
-        let temp = value - Math.floor(value);
-        if (temp < 0) temp = value + 1;
-        return temp;
-      }
-    },
     julianDate(){
       return (new Date().getTime() / 86400000) - (new Date().getTimezoneOffset() / 1440) + 2440587.5;
     },
     lunarAgePercent(){
-      return this.normalize((this.julianDate - 2451550.1) / LUNAR_MONTH);
+      let percent = (this.julianDate - 2451550.1) / LUNAR_MONTH;
+      return this.normalize(percent);
     },
     lunarAge(){
       return this.lunarAgePercent * LUNAR_MONTH;
     },
     daysUntilFull(){ 
-     // console.log(Math.round(LUNAR_MONTH/2) - this.lunarAge);
-      return Math.round((LUNAR_MONTH/2) - this.lunarAge);
+      let days = Math.round(LUNAR_MONTH/2) - this.lunarAge;
+      if(days <= 0){
+        days = days + LUNAR_MONTH;
+      }
+      return Math.round(days);
     },
   },
   methods: {
+    normalize(value){
+      value = value - Math.floor(value);
+      if (value < 0)
+          value = value + 1
+
+      return value;
+    },
     //continue to get the current time
     getCurrTimes(){
       this.dayInMonthNum = new Date().getDate();
@@ -223,6 +231,10 @@ export default {
     text-align: right;
     font-size: 4em;
   }
+  .currDateStyle > p {
+    padding-left: 15px;
+    display: inline-block;
+  }
   .currTimeStyle {
     position: relative;
     text-align: right;
@@ -233,15 +245,12 @@ export default {
     text-align: right;
     font-size: 3em;
     display: block;
-    padding-right: 10%;
+    padding-right: 8%;
   }
   .daysUntilFullStyle{
     position: relative;
     text-align: right;
     font-size: 4em;
-  }
-  .moonPhaseText{
-    color: white;
   }
   .moonScale{
     max-width: 10%;
