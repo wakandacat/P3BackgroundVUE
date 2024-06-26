@@ -2,8 +2,8 @@
   <div>
     <img :class="BackPlacement" v-bind:src="calcTimeOfDay.backIMG"> 
 
-    <img v-if="!isDarkHour" :class="UIBackScale" src="/resources/UI/blueBackSmall.png">
-    <img v-else :class="UIBackScale" src="/resources/UI/greenBackSmall.png">
+    <img v-if="!isDarkHour" :class="UIBackScale" src="/assets/UI/blueBackSmall.png">
+    <img v-else :class="UIBackScale" src="/assets/UI/greenBackSmall.png">
 
     <div :class="UIPlacement">
       <div :class="currDateStyle" :style="{ color: isDarkHour ? '#0b2607' : '#246185' }">
@@ -42,35 +42,35 @@ import { useFavicon } from '@vueuse/core';
 let shortFormDays = ["Su", "M", "Tu", "W", "Th", "F", "Sa"];
 const LUNAR_MONTH = 29.530588853;
 let timesOfDay = [
-  { string: 'Dark Hour', url: '/resources/Backgrounds/tartarus.png', start: 0, end: 1, weekendOnly: false },
-  { string: 'Early Morning', url: '/resources/Backgrounds/earlyMorning.png', start: 1, end: 6, weekendOnly: false },
-  { string: 'Morning', url: '/resources/Backgrounds/morning.png', start: 6, end: 11, weekendOnly: false },
-  { string: 'Lunch', url: '/resources/Backgrounds/lunchTime.png', start: 11, end: 12, weekendOnly: false},   
-  { string: 'Daytime', url: '/resources/Backgrounds/weekends.png', start: 6, end: 15, weekendOnly: true},
-  { string: 'Afternoon', url: '/resources/Backgrounds/school.png', start: 12, end: 15, weekendOnly: false},   
-  { string: 'After School', url: '/resources/Backgrounds/afterSchool.png', start: 15, end: 18, weekendOnly: false},   
-  { string: 'Afternoon', url: '/resources/Backgrounds/afternoon.png', start: 15, end: 18, weekendOnly: true},
-  { string: 'Evening', url: '/resources/Backgrounds/evening.png', start: 18, end: 21, weekendOnly: false},
-  { string: 'Late Night', url: '/resources/Backgrounds/lateNight.png', start: 21, end: 25, weekendOnly: false},
+  { string: 'Dark Hour', url: '/assets/Backgrounds/tartarus.png', start: 0, end: 1, weekendOnly: false },
+  { string: 'Early Morning', url: '/assets/Backgrounds/earlyMorning.png', start: 1, end: 6, weekendOnly: false },
+  { string: 'Morning', url: '/assets/Backgrounds/morning.png', start: 6, end: 11, weekendOnly: false },
+  { string: 'Lunch', url: '/assets/Backgrounds/lunchTime.png', start: 11, end: 12, weekendOnly: false},   
+  { string: 'Daytime', url: '/assets/Backgrounds/weekends.png', start: 6, end: 15, weekendOnly: true},
+  { string: 'Afternoon', url: '/assets/Backgrounds/school.png', start: 12, end: 15, weekendOnly: false},   
+  { string: 'After School', url: '/assets/Backgrounds/afterSchool.png', start: 15, end: 18, weekendOnly: false},   
+  { string: 'Afternoon', url: '/assets/Backgrounds/afternoon.png', start: 15, end: 18, weekendOnly: true},
+  { string: 'Evening', url: '/assets/Backgrounds/evening.png', start: 18, end: 21, weekendOnly: false},
+  { string: 'Late Night', url: '/assets/Backgrounds/lateNight.png', start: 21, end: 25, weekendOnly: false},
 ];
 //14.75 is full moon
 let moonPhases = [
-  { string: 'New', url: '/resources/Moon/01new.png', start: 0, end: 0.5, showText: true },
-  { string: 'Sliver Left', url: '/resources/Moon/02sliverL.png', start: 0.5, end: 3.2, showText: false },
-  { string: 'Waxing Crescent', url: '/resources/Moon/03waxingCres.png', start: 3.2, end: 4.2, showText: false },
-  { string: 'Almost Half', url: '/resources/Moon/04almostHalf.png', start:4.2, end: 6.9, showText: false },
-  { string: 'Half', url: '/resources/Moon/05halfR.png', start: 6.9, end: 7.9, showText: true },
-  { string: 'Past Half', url: '/resources/Moon/06pastHalf.png', start: 7.9, end: 10.6, showText: false },
-  { string: 'Waxing Gibbous', url: '/resources/Moon/07waxingGibb.png', start: 10.6, end: 11.6, showText: false },
-  { string: 'Almost Full', url: '/resources/Moon/08almostFull.png', start: 11.6, end: 14, showText: false },
-  { string: 'Full', url: '/resources/Moon/09full.png', start: 14, end: 15, showText: true },
-  { string: 'Past Full', url: '/resources/Moon/10pastFull.png', start: 15, end: 18, showText: false },
-  { string: 'Waning Gibbous', url: '/resources/Moon/11waningGibb.png', start: 18, end: 19, showText: false },
-  { string: 'Almost Half', url: '/resources/Moon/12almostHalf.png', start: 19, end: 21.6, showText: false },
-  { string: 'Half', url: '/resources/Moon/13HalfL.png', start: 21.6, end: 22.6, showText: true },
-  { string: 'Sliver Right', url: '/resources/Moon/14pastHalf.png', start: 22.6, end: 25.3, showText: false },
-  { string: 'Waning Crescent', url: '/resources/Moon/15waningCres.png', start: 25.3, end: 26.3, showText: false },
-  { string: 'Almost New', url: '/resources/Moon/16sliverR.png', start: 26.3, end: 30, showText: false },
+  { string: 'New', url: '/assets/Moon/01new.png', start: 0, end: 0.5, showText: true },
+  { string: 'Sliver Left', url: '/assets/Moon/02sliverL.png', start: 0.5, end: 3.2, showText: false },
+  { string: 'Waxing Crescent', url: '/assets/Moon/03waxingCres.png', start: 3.2, end: 4.2, showText: false },
+  { string: 'Almost Half', url: '/assets/Moon/04almostHalf.png', start:4.2, end: 6.9, showText: false },
+  { string: 'Half', url: '/assets/Moon/05halfR.png', start: 6.9, end: 7.9, showText: true },
+  { string: 'Past Half', url: '/assets/Moon/06pastHalf.png', start: 7.9, end: 10.6, showText: false },
+  { string: 'Waxing Gibbous', url: '/assets/Moon/07waxingGibb.png', start: 10.6, end: 11.6, showText: false },
+  { string: 'Almost Full', url: '/assets/Moon/08almostFull.png', start: 11.6, end: 14, showText: false },
+  { string: 'Full', url: '/assets/Moon/09full.png', start: 14, end: 15, showText: true },
+  { string: 'Past Full', url: '/assets/Moon/10pastFull.png', start: 15, end: 18, showText: false },
+  { string: 'Waning Gibbous', url: '/assets/Moon/11waningGibb.png', start: 18, end: 19, showText: false },
+  { string: 'Almost Half', url: '/assets/Moon/12almostHalf.png', start: 19, end: 21.6, showText: false },
+  { string: 'Half', url: '/assets/Moon/13HalfL.png', start: 21.6, end: 22.6, showText: true },
+  { string: 'Sliver Right', url: '/assets/Moon/14pastHalf.png', start: 22.6, end: 25.3, showText: false },
+  { string: 'Waning Crescent', url: '/assets/Moon/15waningCres.png', start: 25.3, end: 26.3, showText: false },
+  { string: 'Almost New', url: '/assets/Moon/16sliverR.png', start: 26.3, end: 30, showText: false },
 ];
 
 
