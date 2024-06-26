@@ -33,9 +33,10 @@
 </template>
 
 <script>
-//:style="{ color: dayOfWeekNum === 6 && !isDarkHour ? '#18179d' : '', color: dayOfWeekNum === 0 && !isDarkHour ? '#d5370a' : '',}"
 //using this library's functions: https://github.com/jasonsturges/lunarphase-js to get the lunarphases              
 //https://jasonsturges.medium.com/moons-lunar-phase-in-javascript-a5219acbfe6e#:~:text=Using%20Julian%20date%2C%20you%20can%20calculate%20the%20current%20phase%20of,time%20between%20two%20identical%20syzygies.
+import { useFavicon } from '@vueuse/core';
+
 
 //global vars
 let shortFormDays = ["Su", "M", "Tu", "W", "Th", "F", "Sa"];
@@ -126,6 +127,9 @@ export default {
           if(moonPhases[i].showText === true){ //if its a notable moon phase, hide next and spell it out
             this.hideNext = true;
           }
+          //update the favicon of the page to be the correct moon image
+          this.updateFavicon(moonPhases[i].url);
+
           return {
             moonIMG: moonPhases[i].url,
             string: moonPhases[i].string
@@ -172,6 +176,10 @@ export default {
       this.lunarAgePercent;
       this.lunarAge;
       this.daysUntilFull;
+    },
+    updateFavicon(moonValue){
+      const favicon = useFavicon();
+      favicon.value = moonValue;
     }
   },
   mounted(){
@@ -205,7 +213,7 @@ export default {
     font-weight: 900; 
   }
   .UIBackScale {
-    width:50%;
+    width: 50%;
     height: auto;
     float: right;
     position: relative;
@@ -229,7 +237,7 @@ export default {
   .currDateStyle{
     position: relative;
     text-align: right;
-    font-size: 4em;
+    font-size: 4vw;
   }
   .currDateStyle > p {
     padding-left: 15px;
@@ -238,22 +246,22 @@ export default {
   .currTimeStyle {
     position: relative;
     text-align: right;
-    font-size: 4em;
+    font-size: 4vw;
   }
   .next{
     position: relative;
     text-align: right;
-    font-size: 3em;
+    font-size: 3vw;
     display: block;
     padding-right: 8%;
   }
   .daysUntilFullStyle{
     position: relative;
     text-align: right;
-    font-size: 4em;
+    font-size: 4vw;
   }
   .moonScale{
-    max-width: 10%;
+    max-width: 9%;
     padding-left: 15px;
   }
   .formatStyle{
