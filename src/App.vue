@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :class="BackPlacement" v-bind:src="calcTimeOfDay.backIMG"> 
+    <img :class="BackPlacement" :src="calcTimeOfDay.backIMG"> 
 
     <img v-if="!isDarkHour" :class="UIBackScale" src="/assets/UI/blueBackSmall.png">
     <img v-else :class="UIBackScale" src="/assets/UI/greenBackSmall.png">
@@ -24,7 +24,7 @@
         <div v-else :class="daysUntilFullStyle" :style="{ color: isDarkHour ? '#e8ffe9' : '#d9fdff', textShadow: isDarkHour ? '3px 3px #0b2607' : '3px 3px #246185'}">
           <p>{{ calcPhaseOfMoon.string }}</p>
         </div>
-        <img :class="moonScale" v-bind:src="calcPhaseOfMoon.moonIMG" >
+        <img :class="moonScale" :src="calcPhaseOfMoon.moonIMG">
       </div>
 
     </div>
@@ -33,6 +33,15 @@
 </template>
 
 <script>
+
+//---------------Screen Sizing----------------------------------------------
+var screenWidth = window.screen.availWidth;
+var screenHeight = window.screen.availHeight;
+
+var x = document.body;
+x.setAttribute("width",screenWidth);
+x.setAttribute("height",screenHeight);
+
 //using this library's functions: https://github.com/jasonsturges/lunarphase-js to get the lunarphases              
 //https://jasonsturges.medium.com/moons-lunar-phase-in-javascript-a5219acbfe6e#:~:text=Using%20Julian%20date%2C%20you%20can%20calculate%20the%20current%20phase%20of,time%20between%20two%20identical%20syzygies.
 import { useFavicon } from '@vueuse/core';
@@ -129,7 +138,6 @@ export default {
           }
           //update the favicon of the page to be the correct moon image
           this.updateFavicon(moonPhases[i].url);
-
           return {
             moonIMG: moonPhases[i].url,
             string: moonPhases[i].string
