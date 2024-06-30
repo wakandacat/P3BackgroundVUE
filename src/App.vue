@@ -55,9 +55,16 @@ let timesOfDay = [
   { string: 'Early Morning', url: '/assets/Backgrounds/earlyMorning.png', start: 1, end: 6, weekendOnly: false },
   { string: 'Morning', url: '/assets/Backgrounds/morning.png', start: 6, end: 11, weekendOnly: false },
   { string: 'Lunch', url: '/assets/Backgrounds/lunchTime.png', start: 11, end: 12, weekendOnly: false},   
-  { string: 'Daytime', url: '/assets/Backgrounds/weekends.png', start: 6, end: 15, weekendOnly: true},
   { string: 'Afternoon', url: '/assets/Backgrounds/school.png', start: 12, end: 15, weekendOnly: false},   
   { string: 'After School', url: '/assets/Backgrounds/afterSchool.png', start: 15, end: 18, weekendOnly: false},   
+  { string: 'Evening', url: '/assets/Backgrounds/evening.png', start: 18, end: 21, weekendOnly: false},
+  { string: 'Late Night', url: '/assets/Backgrounds/lateNight.png', start: 21, end: 25, weekendOnly: false},
+];
+
+let weekendTimesOfDay = [
+  { string: 'Dark Hour', url: '/assets/Backgrounds/tartarus.png', start: 0, end: 1 },
+  { string: 'Early Morning', url: '/assets/Backgrounds/earlyMorning.png', start: 1, end: 6 },  
+  { string: 'Daytime', url: '/assets/Backgrounds/weekends.png', start: 6, end: 15, weekendOnly: true},
   { string: 'Afternoon', url: '/assets/Backgrounds/afternoon.png', start: 15, end: 18, weekendOnly: true},
   { string: 'Evening', url: '/assets/Backgrounds/evening.png', start: 18, end: 21, weekendOnly: false},
   { string: 'Late Night', url: '/assets/Backgrounds/lateNight.png', start: 21, end: 25, weekendOnly: false},
@@ -113,17 +120,21 @@ export default {
       }
     },
     calcTimeOfDay(){
-     var hour = new Date().getHours();
-
+      var hour = new Date().getHours();
+      let arrayOfTimes = timesOfDay;
+      if(this.isWeekEnd){
+        arrayOfTimes = weekendTimesOfDay;
+      }
       //loop through the array to figure out which string and background to display
-      for(let i=0;i<timesOfDay.length;i++){
-        if(hour >= timesOfDay[i].start && hour < timesOfDay[i].end && this.isWeekEnd === timesOfDay[i].weekendOnly){ 
-          if(timesOfDay[i].string === "Dark Hour"){ //if its the dark hour, set the flag
+      for(let i=0;i<arrayOfTimes.length;i++){
+        if(hour >= arrayOfTimes[i].start && hour < arrayOfTimes[i].end){
+
+          if(arrayOfTimes[i].string === "Dark Hour"){ //if its the dark hour, set the flag
             this.isDarkHour = true;
           }
           return {
-            timeOfDay: timesOfDay[i].string,
-            backIMG: timesOfDay[i].url
+            timeOfDay: arrayOfTimes[i].string,
+            backIMG: arrayOfTimes[i].url
           };
         }
       }
