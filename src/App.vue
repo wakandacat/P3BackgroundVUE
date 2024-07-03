@@ -46,47 +46,48 @@ x.setAttribute("height",screenHeight);
 //https://jasonsturges.medium.com/moons-lunar-phase-in-javascript-a5219acbfe6e#:~:text=Using%20Julian%20date%2C%20you%20can%20calculate%20the%20current%20phase%20of,time%20between%20two%20identical%20syzygies.
 import { useFavicon } from '@vueuse/core';
 
+let basePath = import.meta.env.BASE_URL;
 
 //global vars
 let shortFormDays = ["Su", "M", "Tu", "W", "Th", "F", "Sa"];
 const LUNAR_MONTH = 29.530588853;
 let timesOfDay = [
-  { string: 'Dark Hour', url: '/assets/Backgrounds/tartarus.png', start: 0, end: 1, weekendOnly: false },
-  { string: 'Early Morning', url: '/assets/Backgrounds/earlyMorning.png', start: 1, end: 6, weekendOnly: false },
-  { string: 'Morning', url: '/assets/Backgrounds/morning.png', start: 6, end: 11, weekendOnly: false },
-  { string: 'Lunch', url: '/assets/Backgrounds/lunchTime.png', start: 11, end: 12, weekendOnly: false},   
-  { string: 'Afternoon', url: '/assets/Backgrounds/school.png', start: 12, end: 15, weekendOnly: false},   
-  { string: 'After School', url: '/assets/Backgrounds/afterSchool.png', start: 15, end: 18, weekendOnly: false},   
-  { string: 'Evening', url: '/assets/Backgrounds/evening.png', start: 18, end: 21, weekendOnly: false},
-  { string: 'Late Night', url: '/assets/Backgrounds/lateNight.png', start: 21, end: 25, weekendOnly: false},
+  { string: 'Dark Hour', url: `${basePath}assets/Backgrounds/tartarus.png`, start: 0, end: 1, weekendOnly: false },
+  { string: 'Early Morning', url: `${basePath}assets/Backgrounds/earlyMorning.png`, start: 1, end: 6, weekendOnly: false },
+  { string: 'Morning', url: `${basePath}assets/Backgrounds/morning.png`, start: 6, end: 11, weekendOnly: false },
+  { string: 'Lunch', url: `${basePath}assets/Backgrounds/lunchTime.png`, start: 11, end: 12, weekendOnly: false},   
+  { string: 'Afternoon', url: `${basePath}assets/Backgrounds/school.png`, start: 12, end: 15, weekendOnly: false},   
+  { string: 'After School', url: `${basePath}assets/Backgrounds/afterSchool.png`, start: 15, end: 18, weekendOnly: false},   
+  { string: 'Evening', url: `${basePath}assets/Backgrounds/evening.png`, start: 18, end: 21, weekendOnly: false},
+  { string: 'Late Night', url: `${basePath}assets/Backgrounds/lateNight.png`, start: 21, end: 25, weekendOnly: false},
 ];
 
 let weekendTimesOfDay = [
-  { string: 'Dark Hour', url: '/assets/Backgrounds/tartarus.png', start: 0, end: 1 },
-  { string: 'Early Morning', url: '/assets/Backgrounds/earlyMorning.png', start: 1, end: 6 },  
-  { string: 'Daytime', url: '/assets/Backgrounds/weekends.png', start: 6, end: 15, weekendOnly: true},
-  { string: 'Afternoon', url: '/assets/Backgrounds/afternoon.png', start: 15, end: 18, weekendOnly: true},
-  { string: 'Evening', url: '/assets/Backgrounds/evening.png', start: 18, end: 21, weekendOnly: false},
-  { string: 'Late Night', url: '/assets/Backgrounds/lateNight.png', start: 21, end: 25, weekendOnly: false},
+  { string: 'Dark Hour', url: `${basePath}assets/Backgrounds/tartarus.png`, start: 0, end: 1 },
+  { string: 'Early Morning', url: `${basePath}assets/Backgrounds/earlyMorning.png`, start: 1, end: 6 },  
+  { string: 'Daytime', url: `${basePath}assets/Backgrounds/weekends.png`, start: 6, end: 15, weekendOnly: true},
+  { string: 'Afternoon', url: `${basePath}assets/Backgrounds/afternoon.png`, start: 15, end: 18, weekendOnly: true},
+  { string: 'Evening', url: `${basePath}assets/Backgrounds/evening.png`, start: 18, end: 21, weekendOnly: false},
+  { string: 'Late Night', url: `${basePath}assets/Backgrounds/lateNight.png`, start: 21, end: 25, weekendOnly: false},
 ];
 //14.75 is full moon
 let moonPhases = [
-  { string: 'New', url: '/assets/Moon/01new.png', start: 0, end: 0.5, showText: true },
-  { string: 'Sliver Left', url: '/assets/Moon/02sliverL.png', start: 0.5, end: 3.2, showText: false },
-  { string: 'Waxing Crescent', url: '/assets/Moon/03waxingCres.png', start: 3.2, end: 4.2, showText: false },
-  { string: 'Almost Half', url: '/assets/Moon/04almostHalf.png', start:4.2, end: 6.9, showText: false },
-  { string: 'Half', url: '/assets/Moon/05halfR.png', start: 6.9, end: 7.9, showText: true },
-  { string: 'Past Half', url: '/assets/Moon/06pastHalf.png', start: 7.9, end: 10.6, showText: false },
-  { string: 'Waxing Gibbous', url: '/assets/Moon/07waxingGibb.png', start: 10.6, end: 11.6, showText: false },
-  { string: 'Almost Full', url: '/assets/Moon/08almostFull.png', start: 11.6, end: 14, showText: false },
-  { string: 'Full', url: '/assets/Moon/09full.png', start: 14, end: 15, showText: true },
-  { string: 'Past Full', url: '/assets/Moon/10pastFull.png', start: 15, end: 18, showText: false },
-  { string: 'Waning Gibbous', url: '/assets/Moon/11waningGibb.png', start: 18, end: 19, showText: false },
-  { string: 'Almost Half', url: '/assets/Moon/12almostHalf.png', start: 19, end: 21.6, showText: false },
-  { string: 'Half', url: '/assets/Moon/13HalfL.png', start: 21.6, end: 22.6, showText: true },
-  { string: 'Sliver Right', url: '/assets/Moon/14pastHalf.png', start: 22.6, end: 25.3, showText: false },
-  { string: 'Waning Crescent', url: '/assets/Moon/15waningCres.png', start: 25.3, end: 26.3, showText: false },
-  { string: 'Almost New', url: '/assets/Moon/16sliverR.png', start: 26.3, end: 30, showText: false },
+  { string: 'New', url: `${basePath}assets/Moon/01new.png`, start: 0, end: 0.5, showText: true },
+  { string: 'Sliver Left', url: `${basePath}assets/Moon/02sliverL.png`, start: 0.5, end: 3.2, showText: false },
+  { string: 'Waxing Crescent', url: `${basePath}assets/Moon/03waxingCres.png`, start: 3.2, end: 4.2, showText: false },
+  { string: 'Almost Half', url: `${basePath}assets/Moon/04almostHalf.png`, start:4.2, end: 6.9, showText: false },
+  { string: 'Half', url: `${basePath}assets/Moon/05halfR.png`, start: 6.9, end: 7.9, showText: true },
+  { string: 'Past Half', url: `${basePath}assets/Moon/06pastHalf.png`, start: 7.9, end: 10.6, showText: false },
+  { string: 'Waxing Gibbous', url: `${basePath}assets/Moon/07waxingGibb.png`, start: 10.6, end: 11.6, showText: false },
+  { string: 'Almost Full', url: `${basePath}assets/Moon/08almostFull.png`, start: 11.6, end: 14, showText: false },
+  { string: 'Full', url: `${basePath}assets/Moon/09full.png`, start: 14, end: 15, showText: true },
+  { string: 'Past Full', url: `${basePath}assets/Moon/10pastFull.png`, start: 15, end: 18, showText: false },
+  { string: 'Waning Gibbous', url: `${basePath}assets/Moon/11waningGibb.png`, start: 18, end: 19, showText: false },
+  { string: 'Almost Half', url: `${basePath}assets/Moon/12almostHalf.png`, start: 19, end: 21.6, showText: false },
+  { string: 'Half', url: `${basePath}assets/Moon/13HalfL.png`, start: 21.6, end: 22.6, showText: true },
+  { string: 'Sliver Right', url: `${basePath}assets/Moon/14pastHalf.png`, start: 22.6, end: 25.3, showText: false },
+  { string: 'Waning Crescent', url: `${basePath}assets/Moon/15waningCres.png`, start: 25.3, end: 26.3, showText: false },
+  { string: 'Almost New', url: `${basePath}assets/Moon/16sliverR.png`, start: 26.3, end: 30, showText: false },
 ];
 
 
@@ -232,15 +233,17 @@ export default {
     font-weight: 900; 
   }
   .UIBackScale {
-    width: 50%;
+    width: 40%;
     height: auto;
     float: right;
     position: relative;
     z-index: 0;
   }
   .BackgroundScale{
-    width: 100%;
-    height: auto;
+    max-width:auto; 
+    max-height:105%; 
+    margin-left:auto;
+    margin-right: auto;
     z-index: -100;
     position: absolute;
   }
@@ -256,7 +259,7 @@ export default {
   .currDateStyle{
     position: relative;
     text-align: right;
-    font-size: 4vw;
+    font-size: 3.5vw;
   }
   .currDateStyle > p {
     padding-left: 15px;
@@ -265,19 +268,19 @@ export default {
   .currTimeStyle {
     position: relative;
     text-align: right;
-    font-size: 4vw;
+    font-size: 3.5vw;
   }
   .next{
     position: relative;
     text-align: right;
-    font-size: 3vw;
+    font-size: 2.5vw;
     display: block;
     padding-right: 8%;
   }
   .daysUntilFullStyle{
     position: relative;
     text-align: right;
-    font-size: 4vw;
+    font-size: 3.5vw;
   }
   .moonScale{
     max-width: 9%;

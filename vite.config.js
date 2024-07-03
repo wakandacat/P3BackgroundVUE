@@ -20,14 +20,6 @@ export default defineConfig({
     rollupOptions: {
       output: {
         assetFileNames: 'assets/[name][extname]', //worked for css file
-        // assetFileNames: ({ name, ext }) => {
-        //   // Handle .png files
-        //   if (ext === '.png') {
-        //     return `assets/${name}__[dirname]${ext}`;
-        //   }
-        //   // For other assets, keep default naming
-        //   return `assets/${name}${ext}`;
-        // },
         chunkFileNames: 'assets/[name].js', // Output all chunks in the 'assets' folder
         entryFileNames: 'assets/[name].js', // Output entry points in the 'assets' folder
       },
