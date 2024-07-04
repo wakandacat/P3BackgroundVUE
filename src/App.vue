@@ -52,23 +52,23 @@ let basePath = import.meta.env.BASE_URL;
 let shortFormDays = ["Su", "M", "Tu", "W", "Th", "F", "Sa"];
 const LUNAR_MONTH = 29.530588853;
 let timesOfDay = [
-  { string: 'Dark Hour', url: `${basePath}assets/Backgrounds/tartarus.png`, start: 0, end: 1, weekendOnly: false },
-  { string: 'Early Morning', url: `${basePath}assets/Backgrounds/earlyMorning.png`, start: 1, end: 6, weekendOnly: false },
-  { string: 'Morning', url: `${basePath}assets/Backgrounds/morning.png`, start: 6, end: 11, weekendOnly: false },
-  { string: 'Lunch', url: `${basePath}assets/Backgrounds/lunchTime.png`, start: 11, end: 12, weekendOnly: false},   
-  { string: 'Afternoon', url: `${basePath}assets/Backgrounds/school.png`, start: 12, end: 15, weekendOnly: false},   
-  { string: 'After School', url: `${basePath}assets/Backgrounds/afterSchool.png`, start: 15, end: 18, weekendOnly: false},   
-  { string: 'Evening', url: `${basePath}assets/Backgrounds/evening.png`, start: 18, end: 21, weekendOnly: false},
-  { string: 'Late Night', url: `${basePath}assets/Backgrounds/lateNight.png`, start: 21, end: 25, weekendOnly: false},
+  { string: 'Dark Hour', url: `${basePath}assets/Backgrounds/tartarus.png`, start: 0, end: 1 },
+  { string: 'Early Morning', url: `${basePath}assets/Backgrounds/earlyMorning.png`, start: 1 },
+  { string: 'Morning', url: `${basePath}assets/Backgrounds/morning.png`, start: 6, end: 11 },
+  { string: 'Lunch', url: `${basePath}assets/Backgrounds/lunchTime.png`, start: 11, end: 12 },   
+  { string: 'Afternoon', url: `${basePath}assets/Backgrounds/school.png`, start: 12, end: 15 },   
+  { string: 'After School', url: `${basePath}assets/Backgrounds/afterSchool.png`, start: 15, end: 18 },   
+  { string: 'Evening', url: `${basePath}assets/Backgrounds/evening.png`, start: 18, end: 21 },
+  { string: 'Late Night', url: `${basePath}assets/Backgrounds/lateNight.png`, start: 21, end: 25 },
 ];
 
 let weekendTimesOfDay = [
   { string: 'Dark Hour', url: `${basePath}assets/Backgrounds/tartarus.png`, start: 0, end: 1 },
   { string: 'Early Morning', url: `${basePath}assets/Backgrounds/earlyMorning.png`, start: 1, end: 6 },  
-  { string: 'Daytime', url: `${basePath}assets/Backgrounds/weekends.png`, start: 6, end: 15, weekendOnly: true},
-  { string: 'Afternoon', url: `${basePath}assets/Backgrounds/afternoon.png`, start: 15, end: 18, weekendOnly: true},
-  { string: 'Evening', url: `${basePath}assets/Backgrounds/evening.png`, start: 18, end: 21, weekendOnly: false},
-  { string: 'Late Night', url: `${basePath}assets/Backgrounds/lateNight.png`, start: 21, end: 25, weekendOnly: false},
+  { string: 'Daytime', url: `${basePath}assets/Backgrounds/weekends.png`, start: 6, end: 15 },
+  { string: 'Afternoon', url: `${basePath}assets/Backgrounds/afternoon.png`, start: 15, end: 18 },
+  { string: 'Evening', url: `${basePath}assets/Backgrounds/evening.png`, start: 18, end: 21 },
+  { string: 'Late Night', url: `${basePath}assets/Backgrounds/lateNight.png`, start: 21, end: 25 },
 ];
 //14.75 is full moon
 let moonPhases = [
@@ -110,6 +110,7 @@ export default {
       dayOfWeekNum: new Date().getDay(), //0, 1, 2, 3, 4, 5, 6 (STARTING AT SUNDAY = 0)
       dayOfWeekLetter: shortFormDays[new Date().getDay()],
       hideNext: false,
+      hour: new Date().getHours(),
     };
   },
   computed: {
@@ -121,14 +122,14 @@ export default {
       }
     },
     calcTimeOfDay(){
-      var hour = new Date().getHours();
+
       let arrayOfTimes = timesOfDay;
       if(this.isWeekEnd){
         arrayOfTimes = weekendTimesOfDay;
       }
       //loop through the array to figure out which string and background to display
       for(let i=0;i<arrayOfTimes.length;i++){
-        if(hour >= arrayOfTimes[i].start && hour < arrayOfTimes[i].end){
+        if(this.hour >= arrayOfTimes[i].start && this.hour < arrayOfTimes[i].end){
 
           if(arrayOfTimes[i].string === "Dark Hour"){ //if its the dark hour, set the flag
             this.isDarkHour = true;
@@ -141,6 +142,7 @@ export default {
       }
     },
     calcPhaseOfMoon(){
+
       //loop through the array to figure out which string and background to display
       for(let i=0;i<moonPhases.length;i++){
 
@@ -189,29 +191,21 @@ export default {
       this.monthNum = new Date().getMonth() + 1; //0 to 11 (add +1 to get correct month),
       this.dayOfWeekNum = new Date().getDay(); //0, 1, 2, 3, 4, 5, 6 (STARTING AT SUNDAY = 0)
       this.dayOfWeekLetter = shortFormDays[new Date().getDay()];
-    },
-    //continue to get the current moon times
-    getDateForCalcs(){
+      this.hour = new Date().getHours();
       this.julianDate;
-      this.lunarAgePercent;
-      this.lunarAge;
-      this.daysUntilFull;
     },
+
     updateFavicon(moonValue){
       const favicon = useFavicon();
       favicon.value = moonValue;
     }
   },
   mounted(){
-
     // Start the interval to call checkValue every second
     setInterval(this.getCurrTimes, 1000);
-    setInterval(this.getDateForCalcs, 1000);
   }
 };
-
 </script>
-
 
 <style>
 
