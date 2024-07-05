@@ -111,6 +111,7 @@ export default {
       dayOfWeekLetter: shortFormDays[new Date().getDay()],
       hideNext: false,
       hour: new Date().getHours(),
+      julianDate: (new Date().getTime() / 86400000) - (new Date().getTimezoneOffset() / 1440) + 2440587.5,
     };
   },
   computed: {
@@ -159,9 +160,6 @@ export default {
         }
       }
     },
-    julianDate(){
-      return (new Date().getTime() / 86400000) - (new Date().getTimezoneOffset() / 1440) + 2440587.5;
-    },
     lunarAgePercent(){
       let percent = (this.julianDate - 2451550.1) / LUNAR_MONTH;
       return this.normalize(percent);
@@ -192,7 +190,7 @@ export default {
       this.dayOfWeekNum = new Date().getDay(); //0, 1, 2, 3, 4, 5, 6 (STARTING AT SUNDAY = 0)
       this.dayOfWeekLetter = shortFormDays[new Date().getDay()];
       this.hour = new Date().getHours();
-      this.julianDate;
+      this.julianDate = (new Date().getTime() / 86400000) - (new Date().getTimezoneOffset() / 1440) + 2440587.5;
     },
 
     updateFavicon(moonValue){
@@ -244,11 +242,11 @@ export default {
   .UIHold{
     display: flex;
     flex-direction: column;
-    width: 98%;
+    width: 96%;
     align-items: flex-end;
     position: absolute;
     z-index: 1;
-    padding: 1%;
+    padding: 2%;
   }
   .currDateStyle{
     position: relative;
