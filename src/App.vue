@@ -134,6 +134,8 @@ export default {
 
           if(arrayOfTimes[i].string === "Dark Hour"){ //if its the dark hour, set the flag
             this.isDarkHour = true;
+          } else {
+            this.isDarkHour = false;
           }
           return {
             timeOfDay: arrayOfTimes[i].string,
@@ -150,6 +152,8 @@ export default {
         if(this.lunarAge >= moonPhases[i].start && this.lunarAge < moonPhases[i].end){ 
           if(moonPhases[i].showText === true){ //if its a notable moon phase, hide next and spell it out
             this.hideNext = true;
+          } else {
+            this.hideNext = false;
           }
           //update the favicon of the page to be the correct moon image
           this.updateFavicon(moonPhases[i].url);
