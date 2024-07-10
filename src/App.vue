@@ -53,13 +53,13 @@ let shortFormDays = ["Su", "M", "Tu", "W", "Th", "F", "Sa"];
 const LUNAR_MONTH = 29.530588853;
 let timesOfDay = [
   { string: 'Dark Hour', url: `${basePath}assets/Backgrounds/tartarus.png`, start: 0, end: 1 },
-  { string: 'Early Morning', url: `${basePath}assets/Backgrounds/earlyMorning.png`, start: 1 },
+  { string: 'Early Morning', url: `${basePath}assets/Backgrounds/earlyMorning.png`, start: 1, end: 6 },
   { string: 'Morning', url: `${basePath}assets/Backgrounds/morning.png`, start: 6, end: 11 },
   { string: 'Lunch', url: `${basePath}assets/Backgrounds/lunchTime.png`, start: 11, end: 12 },   
   { string: 'Afternoon', url: `${basePath}assets/Backgrounds/school.png`, start: 12, end: 15 },   
   { string: 'After School', url: `${basePath}assets/Backgrounds/afterSchool.png`, start: 15, end: 18 },   
   { string: 'Evening', url: `${basePath}assets/Backgrounds/evening.png`, start: 18, end: 21 },
-  { string: 'Late Night', url: `${basePath}assets/Backgrounds/lateNight.png`, start: 21, end: 25 },
+  { string: 'Late Night', url: `${basePath}assets/Backgrounds/lateNight.png`, start: 21, end: 24 },
 ];
 
 let weekendTimesOfDay = [
@@ -68,7 +68,7 @@ let weekendTimesOfDay = [
   { string: 'Daytime', url: `${basePath}assets/Backgrounds/weekends.png`, start: 6, end: 15 },
   { string: 'Afternoon', url: `${basePath}assets/Backgrounds/afternoon.png`, start: 15, end: 18 },
   { string: 'Evening', url: `${basePath}assets/Backgrounds/evening.png`, start: 18, end: 21 },
-  { string: 'Late Night', url: `${basePath}assets/Backgrounds/lateNight.png`, start: 21, end: 25 },
+  { string: 'Late Night', url: `${basePath}assets/Backgrounds/lateNight.png`, start: 21, end: 24 },
 ];
 //14.75 is full moon
 let moonPhases = [
@@ -128,6 +128,7 @@ export default {
       if(this.isWeekEnd){
         arrayOfTimes = weekendTimesOfDay;
       }
+
       //loop through the array to figure out which string and background to display
       for(let i=0;i<arrayOfTimes.length;i++){
         if(this.hour >= arrayOfTimes[i].start && this.hour < arrayOfTimes[i].end){
