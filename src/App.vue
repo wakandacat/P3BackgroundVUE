@@ -1,6 +1,7 @@
 <template>
   <div>
-    <img :class="BackPlacement" :src="calcTimeOfDay.backIMG"> 
+
+    <div :class="BackPlacement" :style="{ backgroundImage: 'url(' + calcTimeOfDay.backIMG + ')' }"><!--empty div so we can apply background-image property--> </div>
 
     <img v-if="!isDarkHour" :class="UIBackScale" src="/assets/UI/blueBackSmall.png">
     <img v-else :class="UIBackScale" src="/assets/UI/greenBackSmall.png">
@@ -228,21 +229,27 @@ export default {
     overflow-y: hidden; /* Hide vertical scrollbar */
     overflow-x: hidden; /* Hide horizontal scrollbar */
     font-weight: 900; 
+    font-size: 100%;
   }
+  
   .UIBackScale {
-    width: 40%;
+    width: calc(40vw + 200 * ((1000px - 100vw) / 1000));
     height: auto;
     float: right;
     position: relative;
     z-index: 0;
   }
+
   .BackgroundScale{
-    max-width:auto; 
-    max-height:105%; 
-    margin-left:auto;
-    margin-right: auto;
-    z-index: -100;
     position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -100;
   }
   .UIHold{
     display: flex;
@@ -256,7 +263,7 @@ export default {
   .currDateStyle{
     position: relative;
     text-align: right;
-    font-size: 3.5vw;
+    font-size: calc(110% + 2vw);
   }
   .currDateStyle > p {
     padding-left: 15px;
@@ -265,22 +272,22 @@ export default {
   .currTimeStyle {
     position: relative;
     text-align: right;
-    font-size: 3.5vw;
+    font-size: calc(110% + 2vw);
   }
   .next{
     position: relative;
     text-align: right;
-    font-size: 2.5vw;
+    font-size: calc(110% + 1vw);
     display: block;
     padding-right: 8%;
   }
   .daysUntilFullStyle{
     position: relative;
     text-align: right;
-    font-size: 3.5vw;
+    font-size: calc(110% + 2vw);
   }
   .moonScale{
-    max-width: 9%;
+    width: calc(9% + 1vw);
     padding-left: 15px;
   }
   .formatStyle{
@@ -288,4 +295,5 @@ export default {
     justify-content: flex-end;
     align-items: center;
   }
+
 </style>
